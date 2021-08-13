@@ -1,0 +1,54 @@
+﻿@model Beneficiari
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        სახელი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Saxeli
+    </dd>
+    <dt class="col-sm-2">
+        გვარი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Gvari
+    </dd>
+    <dt class="col-sm-2">
+        პირადობა
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Piradobisnomeri
+    </dd>
+    <dt class="col-sm-2">
+        ასაკი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Asaki
+    </dd>
+    <dt class="col-sm-2">
+        მისამართი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Misamarti
+    </dd>
+    <dt class="col-sm-2">
+        ტელეფონი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Telefoni
+    </dd>
+</dl>
+<p3 style="color: red" style="font-weight: bold">ნამდვილად გსურთ წაშლა? </p3>
+<br />
+<br />
+<form asp-action="Delete" method="post">
+    <input type="hidden" name="id" value="@Model.Piradobisnomeri" />
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-action="Beneficiarebi">No</a>
+</form>

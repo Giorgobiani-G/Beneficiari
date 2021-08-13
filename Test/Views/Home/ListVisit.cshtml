@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Visit>
+@{
+    ViewData["Title"] = "ვიზიტორები";
+}
+
+@*<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script type="text/javascript">
+    $("#btnpdf").
+    click(function() {
+        window.open('../Home/PrintPdf', '_blank');
+
+</script>*@
+
+<h1>ვიზიტორები</h1>
+
+
+<br>
+
+<form asp-controller="Home" asp-action="ListVisit" method="post">
+    <p>
+        <input type="text" name="SearchText">
+        <input type="submit" value="Search" />
+        <a asp-action="ListVisit">Back To Full List</a>
+    </p>
+</form>
+
+<div class="nav-item">
+    <a asp-controller="Home" asp-action="VisitToExcel"> <img src="https://img.icons8.com/material-rounded/24/26e07f/export-excel.png" /> </a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ვიზ#
+            </th>
+            <th>
+                პირადობის#
+            </th>
+            <th>
+                სახელი
+            </th>
+            <th>
+                გვარი
+            </th>
+            <th>
+                ვიზიტის ტიპი
+            </th>
+            <th>
+                ვიზიტის თარიღი
+            </th>
+
+            <th>
+                სიმპტომი
+            </th>
+            <th>
+                იუზერი
+            </th>
+            <th>
+                მდგომარეობა
+            </th>
+
+            <th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vsid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Piradoba)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Saxeli)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gvari)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VistisTipi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TarigiDro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Symptomi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currentuser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mdgomareoba)
+            </td>
+
+            <td>
+                <a asp-action="VisitEdit" asp-route-id="@item.Vsid">Edit</a> |
+
+                <a asp-action="VisDelete" asp-route-id="@item.Vsid">Delete</a> |
+
+                <a id="btnpdf" name="id" asp-action="PrintPdf" asp-route-id="@item.Vsid">Print</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
