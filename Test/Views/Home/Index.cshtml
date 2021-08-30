@@ -1,0 +1,34 @@
+﻿@using Test.Controllers
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+
+
+@if (LoginController.issinged)
+{
+
+
+    <a asp-action="Registracia">
+        რეგისტრაცია
+
+    </a>
+
+    <br />
+
+
+    <a asp-action="Beneficiarebi">ბენეფიციარები </a>
+    <br />
+    <a asp-action="NewVisit">ახალი ვიზიტი </a>
+    <br />
+    <a asp-action="ListVisit">ვიზიტევის სია </a>
+
+
+}
+
+
+
+
+

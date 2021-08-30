@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Beneficiari>  
+@{
+    ViewData["Title"] = "ბენეფიციარები";
+}
+
+<h1>ბენეფიციარები</h1>
+<br/>
+<form asp-controller="Home" asp-action="Beneficiarebi" method="post">
+    <p>
+        <input type="text" name="SearchText">
+        <input type="submit" value="Search" />
+        <a asp-action="Beneficiarebi">Back To Full List</a>
+    </p>
+</form>
+<div class="nav-item">
+    <a asp-controller="Home" asp-action="BenefToExcel"> <img src="https://img.icons8.com/material-rounded/24/26e07f/export-excel.png" /> </a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                თარიღი
+            </th>
+            <th>
+                პ/ნ
+            </th>
+
+            <th>
+                სახელი
+            </th>
+            <th>
+                გვარი
+            </th>
+            <th>
+                დაბ.თარიღი
+            </th>
+
+            <th>
+                ასაკი
+            </th>
+            <th>
+                მისამართი
+            </th>
+            <th>
+                ტელეფონი
+            </th>
+            <th>
+
+        </tr>
+    </thead>
+    
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.Tarigi.ToString("MM/dd/yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Piradobisnomeri)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Saxeli)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gvari)
+            </td>
+            <td>
+                @item.DabTarigi.ToString("MM/dd/yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Asaki)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Misamarti)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefoni)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Benid">Edit</a> |
+
+                <a asp-action="Delete" asp-route-id="@item.Benid">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

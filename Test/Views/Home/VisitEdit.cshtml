@@ -1,0 +1,78 @@
+﻿@model Visit
+@{
+    ViewData["Title"] = "VisitEdit";
+}
+
+<h1>VisitEdit</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <form method="post" asp-action="VisitEdit">
+
+            <div class="text-danger"></div>
+            <input type="hidden" asp-for="Vsid" />
+            <div class="form-group">
+
+                <input type="hidden" asp-for="Vsid" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Piradoba" class="control-label"></label>
+                <input type="text" asp-for="Piradoba" class="form-control" />
+
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="Saxeli" class="control-label"></label>
+                <input type="text" asp-for="Saxeli" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gvari" class="control-label"></label>
+                <input type="text" asp-for="Gvari" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="VistisTipi" class="control-label"></label>
+                <input type="text" asp-for="VistisTipi" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TarigiDro" class="control-label"></label>
+                <input type="text" asp-for="TarigiDro" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Symptomi" class="control-label"></label>
+                <input type="text" asp-for="Symptomi" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Currentuser" class="control-label"></label>
+                <input type="text" asp-for="Currentuser" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Mdgomareoba" class="control-label"></label>
+                <input type="text" asp-for="Mdgomareoba" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <button asp-action="ListVisit" class="btn btn-danger">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

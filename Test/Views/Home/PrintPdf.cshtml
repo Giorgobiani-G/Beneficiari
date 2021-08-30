@@ -1,0 +1,58 @@
+﻿@using Test.Controllers
+@model Visit
+@{
+    ViewData["Title"] = "print";
+}
+
+<style>
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        
+    }
+
+</style>
+
+
+
+
+<table class="m-lg-auto table-bordered" >
+    <img src="~/Image/Logo.png" width="90" height="110" class="center" />
+    <br />
+
+    <p class="text-center" style="font-weight: bold">  საქველმოქმედო ფონდ „საქართველოს კარიტასი“-ის ჯანმრთელობის დაცვის პროგრამა</p>
+    <br />
+
+    <thead class="text-center">
+        <tr>
+            <th scope="col">ტესტირების <br /> სახეობა</th>
+            <th scope="col">ჩატარების თარიღი</th>
+            <th scope="col">სახელი გვარი/პირადი <br /> ნომერი</th>
+            <th scope="col">შედეგი</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr font-size="40px">
+
+            <td>COVID-19 ანტიგენის<br/> სწრაფი ტესტი</td>
+            <td>@Model.TarigiDro</td>
+            <td>@Model.Saxeli @Model.Gvari /@Model.Piradoba</td>
+            <td>@Model.Mdgomareoba</td>
+        </tr>
+
+    </tbody>
+
+
+
+</table>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<p class="text-md-center">განმახორციელებელი პირი               @Model.Currentuser</p>

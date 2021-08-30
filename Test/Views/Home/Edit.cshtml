@@ -1,0 +1,81 @@
+﻿@model Beneficiari
+
+
+@{
+    ViewData["Title"] = "რედაქტირება";
+}
+
+<h1>Edit</h1>
+
+<h4>EmploeeModel</h4>
+
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <form method="post" asp-action="Edit">
+
+            <div class="text-danger"></div>
+            <input type="hidden" asp-for="Benid" />
+            <div class="form-group">
+
+                <input type="hidden" asp-for="Benid" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Tarigi" class="control-label"></label>
+                <input type="date" asp-for="Tarigi" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Piradobisnomeri" class="control-label"></label>
+                <input type="text" asp-for="Piradobisnomeri" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Saxeli" class="control-label"></label>
+                <input type="text" asp-for="Saxeli" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gvari" class="control-label"></label>
+                <input type="text" asp-for="Gvari" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DabTarigi" class="control-label"></label>
+                <input type="date" asp-for="DabTarigi" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Asaki" class="control-label"></label>
+                <input readonly="readonly" type="text" asp-for="Asaki" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Misamarti" class="control-label"></label>
+                <input type="text" asp-for="Misamarti" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Telefoni" class="control-label"></label>
+                <input type="text" asp-for="Telefoni" class="form-control" />
+
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <button asp-action="Beneficiarebi" class="btn btn-danger">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

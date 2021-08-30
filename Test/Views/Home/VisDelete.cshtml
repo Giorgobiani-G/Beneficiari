@@ -1,0 +1,60 @@
+﻿@model Visit
+@{
+    ViewData["Title"] = "VisDelete";
+}
+
+<h1>ვიზიტის წაშლა</h1>
+
+<dl class="row">
+    <dt class="col-sm-2">
+        პირადობის#
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Piradoba
+    </dd>
+    <dt class="col-sm-2">
+        სახელი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Saxeli
+    </dd>
+    <dt class="col-sm-2">
+        გვარი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Gvari
+    </dd>
+
+    <dt class="col-sm-2">
+        ვიზიტის ტიპი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.VistisTipi
+    </dd>
+    <dt class="col-sm-2">
+        ვიზიტის თარიღი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.TarigiDro
+    </dd>
+    <dt class="col-sm-2">
+        სიმპტომი
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Symptomi
+    </dd>
+    <dt class="col-sm-2">
+        მდგომარეობა
+    </dt>
+    <dd class="col-sm-10">
+        @Model.Mdgomareoba
+    </dd>
+</dl>
+<p3 style="color: red" style="font-weight: bold">ნამდვილად გსურთ წაშლა? </p3>
+<br/>
+<br />
+<form asp-action="VisDelete" method="post">
+    <input type="hidden" name="id" value="@Model.Piradoba" />
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-action="ListVisit">No</a>
+</form>
