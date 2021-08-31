@@ -348,7 +348,8 @@ namespace Test.Controllers
                 worksheet.Cell(currentrow, 5).Value = "ვიზიტის ტიპი";
                 worksheet.Cell(currentrow, 6).Value = "ვიზიტის თარიღი";
                 worksheet.Cell(currentrow, 7).Value = "სიმპტომი";
-                worksheet.Cell(currentrow, 8).Value = "მდგომარეობა";
+                worksheet.Cell(currentrow, 8).Value = "იუზერი";
+                worksheet.Cell(currentrow, 9).Value = "მდგომარეობა";
                
                 foreach (var visitorebi in _benDb.Visits)
                 {
@@ -360,7 +361,8 @@ namespace Test.Controllers
                     worksheet.Cell(currentrow, 5).Value = visitorebi.VistisTipi;
                     worksheet.Cell(currentrow, 6).Value = visitorebi.TarigiDro;
                     worksheet.Cell(currentrow, 7).Value = visitorebi.Symptomi;
-                    worksheet.Cell(currentrow, 8).Value = visitorebi.Mdgomareoba;
+                    worksheet.Cell(currentrow, 8).Value = visitorebi.Currentuser;
+                    worksheet.Cell(currentrow, 9).Value = visitorebi.Mdgomareoba;
                    
                 }
 
