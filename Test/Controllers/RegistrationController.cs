@@ -10,7 +10,7 @@ namespace Test.Controllers
 {
     public class RegistrationController : Controller
     {
-        private BenDbContext _benDbContext;
+        private readonly BenDbContext  _benDbContext;
         public RegistrationController(BenDbContext bdContext)
         {
             this._benDbContext = bdContext;

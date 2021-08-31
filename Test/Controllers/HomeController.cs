@@ -61,7 +61,7 @@ namespace Test.Controllers
 
             }
 
-            return View(vlistBeneficiaris);
+            //return View(vlistBeneficiaris);
         }
 
 
@@ -162,18 +162,20 @@ namespace Test.Controllers
                      where ben.Piradobisnomeri == personalId
                      select ben).FirstOrDefault();
 
-            
 
 
-            Visit vs = new Visit();
-            vs.Gvari = benresult.Gvari;
-            vs.Saxeli = benresult.Saxeli;
-            vs.Piradoba = benresult.Piradobisnomeri;
-            vs.VistisTipi = tipi;
-            vs.TarigiDro = tarigdro;
-            vs.Symptomi = simptomebi;
-            vs.Currentuser = LoginController.user;
-            vs.Mdgomareoba = mdgomareoba;
+
+            Visit vs = new Visit
+            {
+                Gvari = benresult.Gvari,
+                Saxeli = benresult.Saxeli,
+                Piradoba = benresult.Piradobisnomeri,
+                VistisTipi = tipi,
+                TarigiDro = tarigdro,
+                Symptomi = simptomebi,
+                Currentuser = LoginController.user,
+                Mdgomareoba = mdgomareoba
+            };
 
 
 
@@ -205,7 +207,7 @@ namespace Test.Controllers
                 return View(await v.ToListAsync());
             }
 
-            return View(v);
+            //return View(v);
         }
 
 
@@ -315,7 +317,8 @@ namespace Test.Controllers
                 foreach (var beneficiari in _benDb.Beneficiaris)
                 {
                     currentrow++;
-                    worksheet.Cell(currentrow, 1).Value = beneficiari.Piradobisnomeri;
+                    
+                    worksheet.Cell(currentrow, 1).Value = "'" + beneficiari.Piradobisnomeri;
                     worksheet.Cell(currentrow, 2).Value = beneficiari.Saxeli;
                     worksheet.Cell(currentrow, 3).Value = beneficiari.Gvari;
                     worksheet.Cell(currentrow, 4).Value = beneficiari.Asaki;
@@ -333,7 +336,7 @@ namespace Test.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(Beneficiarebi));
+            //return RedirectToAction(nameof(Beneficiarebi));
         }
             
         public IActionResult VisitToExcel()
@@ -343,7 +346,8 @@ namespace Test.Controllers
                 var worksheet = workbook.Worksheets.Add("Visitorebi");
                 var currentrow = 1;
                 worksheet.Cell(currentrow, 1).Value = "ვიზ#";
-                worksheet.Cell(currentrow, 2).Value = "სახელი";
+                worksheet.Cell(currentrow, 2).Value = "პ/ნ";
+                worksheet.Cell(currentrow, 3).Value = "სახელი";
                 worksheet.Cell(currentrow, 4).Value = "გვარი";
                 worksheet.Cell(currentrow, 5).Value = "ვიზიტის ტიპი";
                 worksheet.Cell(currentrow, 6).Value = "ვიზიტის თარიღი";
@@ -355,7 +359,7 @@ namespace Test.Controllers
                 {
                     currentrow++;
                     worksheet.Cell(currentrow, 1).Value = visitorebi.Vsid;
-                    worksheet.Cell(currentrow, 2).Value = visitorebi.Piradoba;
+                    worksheet.Cell(currentrow, 2).Value = "'" + visitorebi.Piradoba;
                     worksheet.Cell(currentrow, 3).Value = visitorebi.Saxeli;
                     worksheet.Cell(currentrow, 4).Value = visitorebi.Gvari;
                     worksheet.Cell(currentrow, 5).Value = visitorebi.VistisTipi;
@@ -374,7 +378,7 @@ namespace Test.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(ListVisit));
+            //return RedirectToAction(nameof(ListVisit));
         }
 
         public IActionResult PrintPdf(int id)
