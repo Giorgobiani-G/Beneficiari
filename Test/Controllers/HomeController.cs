@@ -40,24 +40,35 @@ namespace Test.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Beneficiarebi(string SearchText)
+        public async Task<IActionResult> Beneficiarebi(string SearchText,int pg=1)
         {
+            
 
             var vlistBeneficiaris = from bn in _benDb.Beneficiaris
                 orderby bn.Benid descending 
                                     select bn;
-            
+            const int pagesize = 5;
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            int benefcount = vlistBeneficiaris.Count();
+            var pager = new Pager(benefcount, pg, pagesize);
+            int benfskip = (pg - 1) * pagesize;
+
+            var data = await vlistBeneficiaris.Skip(benfskip).Take(pager.PageSize).ToListAsync();
+            this.ViewBag.Pager = pager;
 
             if (!String.IsNullOrEmpty(SearchText))
             {
-
-                vlistBeneficiaris = (IOrderedQueryable<Beneficiari>)_benDb.Beneficiaris.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText)||(n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText));
-                return View(await vlistBeneficiaris.ToListAsync());
+                    
+                var d = data.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText)||(n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText));
+                return View(d);
             }
             else
             {
 
-                return View(await vlistBeneficiaris.ToListAsync());
+                return View(data);
 
             }
 

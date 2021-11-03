@@ -1,19 +1,29 @@
-﻿@model IEnumerable<Beneficiari>  
-@{
-    ViewData["Title"] = "ბენეფიციარები";
-}
+﻿@model IEnumerable<Beneficiari>
+@{ ViewData["Title"] = "ბენეფიციარები";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    } }
 
 <h1>ბენეფიციარები</h1>
-<br/>
+<br />
+
+
 <form asp-controller="Home" asp-action="Beneficiarebi" method="post">
     <p>
         <input type="text" name="SearchText">
         <input type="submit" value="Search" />
         <a asp-action="Beneficiarebi">Back To Full List</a>
+
     </p>
 </form>
+
 <div class="nav-item">
     <a asp-controller="Home" asp-action="BenefToExcel"> <img src="https://img.icons8.com/material-rounded/24/26e07f/export-excel.png" /> </a>
+
 </div>
 
 <table class="table">
@@ -49,40 +59,81 @@
 
         </tr>
     </thead>
-    
-    <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.Tarigi.ToString("MM/dd/yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Piradobisnomeri)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Saxeli)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gvari)
-            </td>
-            <td>
-                @item.DabTarigi.ToString("MM/dd/yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Asaki)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Misamarti)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefoni)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Benid">Edit</a> |
 
-                <a asp-action="Delete" asp-route-id="@item.Benid">Delete</a>
-            </td>
-        </tr>
-    }
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @item.Tarigi.ToString("MM/dd/yyyy")
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Piradobisnomeri)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Saxeli)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Gvari)
+    </td>
+    <td>
+        @item.DabTarigi.ToString("MM/dd/yyyy")
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Asaki)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Misamarti)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Telefoni)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.Benid">Edit</a> |
+
+        <a asp-action="Delete" asp-route-id="@item.Benid">Delete</a>
+    </td>
+</tr>
+}
     </tbody>
 </table>
+
+
+<div class="container">
+    @if (pager.TotalPages > 0)
+    {
+<ul class="pagination justify-content-end">
+
+    @if (pager.CurrentPage > 1)
+    {
+<li class="page-item">
+    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="1">First</a>
+</li>
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="@(pager.CurrentPage-1)">Previous</a>
+                    </li>
+}
+
+
+    @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+    {
+<li class="page-item@(pge==pager.CurrentPage ? "active" : "")">
+    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="@pge">@pge</a>
+</li>
+}
+
+    @if (pager.CurrentPage < pager.TotalPages)
+    {
+<li class="page-item">
+    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+</li>
+
+                    <li>
+                        <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="@(pager.TotalPages)">Last</a>
+                    </li>
+}
+
+
+</ul>}
+
+</div>
