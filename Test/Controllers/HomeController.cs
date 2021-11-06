@@ -62,7 +62,7 @@ namespace Test.Controllers
             if (!String.IsNullOrEmpty(SearchText))
             {
                     
-                var d = data.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText)||(n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText));
+                var d = vlistBeneficiaris.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText)||(n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText));
                 return View(d);
             }
             else
@@ -73,7 +73,7 @@ namespace Test.Controllers
             }
 
             //return View(vlistBeneficiaris);
-        }
+            }
 
 
         public async Task<IActionResult> Edit(int? id)
