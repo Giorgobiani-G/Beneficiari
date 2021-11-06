@@ -28,7 +28,7 @@ namespace Test.Models
             int startpage = currentpage - 5;
             int endpage = currentpage + 4;
 
-            if (startpage<0)
+            if (startpage<=0)
             {
                 endpage = endpage - (startpage - 1);
                 startpage = 1;
