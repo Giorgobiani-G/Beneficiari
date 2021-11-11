@@ -49,6 +49,6 @@
 <br />
 <form asp-action="Delete" method="post">
     <input type="hidden" name="id" value="@Model.Piradobisnomeri" />
-    <input type="submit" value="Delete" class="btn btn-danger" />
-    <a asp-action="Beneficiarebi">No</a>
+    <input type="submit" value="Delete" asp-route-pg=@TempData["page"] class="btn btn-danger" />
+    <a asp-action="Beneficiarebi" asp-route-pg=@TempData["page"]>No</a>
 </form>

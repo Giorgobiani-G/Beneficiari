@@ -59,6 +59,8 @@ namespace Test.Controllers
             var data = await vlistBeneficiaris.Skip(benfskip).Take(pager.PageSize).ToListAsync();
             this.ViewBag.Pager = pager;
 
+            TempData["page"] = pg;
+
             if (!String.IsNullOrEmpty(SearchText))
             {
                     
@@ -95,7 +97,7 @@ namespace Test.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Beneficiari beneficiari)
+        public async Task<IActionResult> Edit(Beneficiari beneficiari,int pg)
 
         {
 
@@ -109,7 +111,7 @@ namespace Test.Controllers
 
             //return View("Beneficiarebi");
 
-            return RedirectToAction(nameof(Beneficiarebi));
+            return RedirectToAction(nameof(Beneficiarebi),new {pg });
         }
 
         public async  Task<IActionResult> Delete(int id)
@@ -120,7 +122,7 @@ namespace Test.Controllers
             return View(delben);
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id,int pg)
         {
             var delben = await (from De in _benDb.Beneficiaris
                 where De.Piradobisnomeri == id
@@ -128,7 +130,7 @@ namespace Test.Controllers
            _benDb.Beneficiaris.Remove(delben);
                _benDb.SaveChanges();
 
-               return RedirectToAction(nameof(Beneficiarebi));
+               return RedirectToAction(nameof(Beneficiarebi), new { pg });
         }
 
         public IActionResult Privacy()
