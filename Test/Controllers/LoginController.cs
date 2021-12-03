@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Presentation;
 using Test.Data;
 using Test.Models;
+using Test.Security;
 
 namespace Test.Controllers
 {
@@ -31,7 +32,7 @@ namespace Test.Controllers
         {
             bool rg = (from reg in _benDbContext.Registrations
                 where reg.Username == login.User
-                      && reg.Password == login.Password
+                      && reg.Password == EncDec.Encrypt(login.Password)
                 select reg).Any();
 
             if (rg)

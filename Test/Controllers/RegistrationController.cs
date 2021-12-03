@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Test.Data;
 using Test.Models;
+using Test.Security;
 
 namespace Test.Controllers
 {
@@ -22,10 +23,12 @@ namespace Test.Controllers
         [HttpPost]
         public IActionResult Registracia(Registration reg )
         {
+            string encpasswprd = EncDec.Encrypt(reg.Password);
+
             var exists = (from Rg in _benDbContext.Registrations
                 where Rg.Username == reg.Username &&
-                      Rg.Password == reg.Password
-                select Rg).Any();
+                      Rg.Password == encpasswprd
+                      select Rg).Any();
 
             if (exists)
             {
@@ -35,9 +38,14 @@ namespace Test.Controllers
             }
             else
             {
+                Registration reencpass = new Registration();
+                reencpass.Id = reg.Id;
+                reencpass.Username = reg.Username;
+                reencpass.Password = encpasswprd;
+                reencpass.IsSigned = reg.IsSigned;
 
 
-                _benDbContext.Registrations.Add(reg);
+                _benDbContext.Registrations.Add(reencpass);
                 _benDbContext.SaveChanges();
                 ViewBag.Message = "თქვენ წარმატებით გაიარეთ რეგისტრაცია";
 
