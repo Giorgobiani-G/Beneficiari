@@ -17,6 +17,7 @@ using Test.Models;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Drawing;
+using Syncfusion.Pdf.Tables;
 
 namespace Test.Controllers
 {
@@ -458,6 +459,153 @@ namespace Test.Controllers
             //pdfDoc.Close();
             #endregion
             return View(dbvstor);
+        }
+
+        public IActionResult GeneratePdfDocument(int id)
+
+        {
+            var dbvstor = (from vstor in _benDb.Visits.Where(o => o.Vsid == id)
+                           select vstor).FirstOrDefault();
+
+            //Create a new PDF document.
+
+            PdfDocument doc = new PdfDocument();
+            doc.PageSettings.Size = PdfPageSize.A4;
+
+            //Add a page.
+
+            PdfPage page = doc.Pages.Add();
+
+            //Create PDF graphics for the page.
+
+            PdfGraphics graphics = page.Graphics;
+
+            //Create the font for setting the style.
+            FileStream fontStream = new FileStream("sylfaen.ttf", FileMode.Open, FileAccess.Read);
+
+            //Use the font installed in the machine
+
+            PdfFont font = new PdfTrueTypeFont(fontStream, 11.45f, PdfFontStyle.Bold);
+
+            //Draw the text.
+
+            graphics.DrawString("საქველმოქმედო ფონდ „საქართველოს კარიტასი“-ის ჯანმრთელობის დაცვის პროგრამა", font, PdfBrushes.Black, new PointF(25f, 250f));
+
+
+
+            //Load the image from the disk
+
+            FileStream imageStream = new FileStream("Logo.png", FileMode.Open, FileAccess.Read);
+
+            PdfBitmap image = new PdfBitmap(imageStream);
+
+            //Draw the image
+
+            graphics.DrawImage(image, 200f, 0);
+
+
+
+            //Create a PdfLightTable.
+
+            PdfLightTable pdfLightTable = new PdfLightTable();
+
+            //Set the DataSourceType as Direct.
+
+            pdfLightTable.DataSourceType = PdfLightTableDataSourceType.TableDirect;
+
+            //Create columns.
+
+            pdfLightTable.Columns.Add(new PdfColumn("ტესტირების სახეობა"));
+
+            pdfLightTable.Columns.Add(new PdfColumn("ჩატარების თარიღი"));
+
+            pdfLightTable.Columns.Add(new PdfColumn("სახელი გვარი/პირადი ნომერი"));
+
+            pdfLightTable.Columns.Add(new PdfColumn("შედეგი"));
+
+            //Add Rows.
+
+            DateTime tarigi = dbvstor.TarigiDro;
+
+            string saxeligvaripiradoba = dbvstor.Saxeli + " " + dbvstor.Gvari + "/" + dbvstor.Piradoba;
+            string shedegi = dbvstor.Mdgomareoba;
+            
+
+            pdfLightTable.Rows.Add(new object[] { "COVID-19 ანტიგენის სწრაფი ტესტი", tarigi, saxeligvaripiradoba, shedegi });
+
+            //create and customize the string formats
+            PdfStringFormat format = new PdfStringFormat();
+            format.Alignment = PdfTextAlignment.Center;
+            format.LineAlignment = PdfVerticalAlignment.Middle;
+
+            //Declare and define the header style.
+
+            PdfCellStyle headerStyle = new PdfCellStyle();
+
+            headerStyle.Font = new PdfTrueTypeFont(fontStream, 10f, PdfFontStyle.Bold);
+            headerStyle.StringFormat = format;
+
+            pdfLightTable.Style.HeaderStyle = headerStyle;
+
+            //Declare and define the alternate style.
+
+            PdfCellStyle altStyle = new PdfCellStyle();
+            altStyle.Font = new PdfTrueTypeFont(fontStream, 10f);
+            altStyle.StringFormat = format;
+
+            pdfLightTable.Style.DefaultStyle = altStyle;
+
+
+            //Show header in the table
+
+            pdfLightTable.Style.ShowHeader = true;
+
+            //Draw the PdfLightTable.
+
+            pdfLightTable.Draw(page, 20f, 400f);
+
+
+            //Draw the text.
+            string name = dbvstor.Currentuser;            
+            graphics.DrawString($"განმახორციელებელი პირი :                    {name}", font, PdfBrushes.Black, new PointF(160f, 650f));
+
+
+            PdfCreationDateField pdfCreationDateField = new PdfCreationDateField();
+
+            pdfCreationDateField.DateFormatString = DateTime.Now.ToString();
+
+            PdfFont fontfordate = new PdfTrueTypeFont(fontStream, 9f);
+
+            graphics.DrawString($"დაბეჭდვის დრო :  {pdfCreationDateField.DateFormatString}", fontfordate, PdfBrushes.Black, new PointF(350f, 750f));
+
+            //Creating the stream object
+
+            MemoryStream stream = new MemoryStream();
+
+            //Save the PDF document to stream.
+
+            doc.Save(stream);
+
+            //If the position is not set to '0' then the PDF will be empty.
+
+            stream.Position = 0;
+
+            //Close the document.
+
+            doc.Close(true);
+
+            //Defining the ContentType for pdf file.
+
+            string contentType = "application/pdf";
+
+            //Define the file name.
+
+            //string fileName = "Output.pdf";
+
+            //Creates a FileContentResult object by using the file contents, content type, and file name.
+
+            return File(stream, contentType);
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

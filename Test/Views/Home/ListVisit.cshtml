@@ -103,7 +103,9 @@
 
                 <a asp-action="VisDelete" asp-route-id="@item.Vsid">Delete</a> |
 
-                <a id="btnpdf" name="id" asp-action="PrintPdf" asp-route-id="@item.Vsid">Print</a>
+                <a id="btnpdf" name="id" asp-action="PrintPdf" asp-route-id="@item.Vsid">Print</a> |
+
+                <a id="btnpdf" name="id" asp-action="GeneratePdfDocument" asp-route-id="@item.Vsid">PrintPdf</a>
             </td>
         </tr>
         }
