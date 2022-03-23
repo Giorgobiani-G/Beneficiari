@@ -55,6 +55,6 @@
 <br />
 <form asp-action="VisDelete" method="post">
     <input type="hidden" name="id" value="@Model.Piradoba" />
-    <input type="submit" value="Delete" class="btn btn-danger" />
-    <a asp-action="ListVisit">No</a>
+    <input type="submit" value="Delete" asp-route-pg=@TempData["page"] class="btn btn-danger" />
+    <a asp-action="ListVisit" asp-route-pg=@TempData["page"]>No</a>
 </form>

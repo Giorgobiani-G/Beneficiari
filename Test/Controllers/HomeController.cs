@@ -205,10 +205,24 @@ namespace Test.Controllers
         }
 
 
-        public async Task<IActionResult> ListVisit(string SearchText)
+        public async Task<IActionResult> ListVisit(string SearchText, int pg = 1)
         {
             var v = from vs in _benDb.Visits
                 select vs;
+
+            const int pagesize = 5;
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            int benefcount = v.Count();
+            var pager = new Pager(benefcount, pg, pagesize);
+            int benfskip = (pg - 1) * pagesize;
+
+            var data = await v.Skip(benfskip).Take(pager.PageSize).ToListAsync();
+            this.ViewBag.Pager = pager;
+
+            TempData["page"] = pg;
 
             if (!String.IsNullOrEmpty(SearchText))
             {
@@ -218,7 +232,7 @@ namespace Test.Controllers
             else
             {
 
-                return View(await v.ToListAsync());
+                return View(data);
             }
 
             //return View(v);
@@ -273,7 +287,7 @@ namespace Test.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> VisitEdit(Visit vis)
+        public async Task<IActionResult> VisitEdit(Visit vis, int pg)
 
         {
 
@@ -287,7 +301,7 @@ namespace Test.Controllers
 
             //return View("Beneficiarebi");
 
-            return RedirectToAction(nameof(ListVisit));
+            return RedirectToAction(nameof(ListVisit),new { pg });
         }
 
 
@@ -299,7 +313,7 @@ namespace Test.Controllers
             return View(delvis);
         }
         [HttpPost]
-        public async Task<IActionResult> VisDelete(string id)
+        public async Task<IActionResult> VisDelete(string id, int pg)
         {
             var delvis = await (from De in _benDb.Visits
                 where De.Piradoba == id
@@ -307,7 +321,7 @@ namespace Test.Controllers
            _benDb.Visits.Remove(delvis);
                _benDb.SaveChanges();
 
-               return RedirectToAction(nameof(ListVisit));
+               return RedirectToAction(nameof(ListVisit),new {pg});
         }
 
 
