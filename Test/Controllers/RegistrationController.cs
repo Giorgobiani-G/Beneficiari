@@ -20,6 +20,7 @@ namespace Test.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Registracia(Registration reg )
         {
@@ -44,7 +45,6 @@ namespace Test.Controllers
                 reencpass.Password = encpasswprd;
                 reencpass.IsSigned = reg.IsSigned;
 
-
                 _benDbContext.Registrations.Add(reencpass);
                 _benDbContext.SaveChanges();
                 ViewBag.Message = "თქვენ წარმატებით გაიარეთ რეგისტრაცია";
@@ -55,7 +55,5 @@ namespace Test.Controllers
 
             return View();
         }
-
-
     }
 }

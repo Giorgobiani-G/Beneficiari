@@ -10,7 +10,6 @@ namespace Test.Models
 {
     public class Visit
     {
-        
         [Key]
         public int Vsid { get; set; }
         public string VistisTipi { get; set; }
@@ -18,23 +17,14 @@ namespace Test.Models
         public string Piradoba { get; set; }
         public string Saxeli { get; set; }
         public string Gvari { get; set; }
-
         public string Symptomi { get; set; }
-
         private string? _currentuser;
-
         public string Currentuser
         {
             get => _currentuser;
             set => _currentuser =value;
         }
-
         public string Mdgomareoba { get; set; }
-
-
-    }
-
-
-    
+    }   
 }
 

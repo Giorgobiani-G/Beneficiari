@@ -3,29 +3,19 @@
     ViewData["Title"] = "Home Page";
 }
 
-
-
-
-
 @if (LoginController.issinged)
 {
-
-
     <a asp-action="Registracia">
         რეგისტრაცია
-
     </a>
 
     <br />
 
-
-    <a asp-action="Beneficiarebi">ბენეფიციარები </a>
+    <a asp-action="Beneficiarebi">ბენეფიციარები</a>
     <br />
-    <a asp-action="NewVisit">ახალი ვიზიტი </a>
+    <a asp-action="NewVisit">ახალი ვიზიტი</a>
     <br />
-    <a asp-action="ListVisit">ვიზიტების სია </a>
-
-
+    <a asp-action="ListVisit">ვიზიტების სია</a>
 }
 
 

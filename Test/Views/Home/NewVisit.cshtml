@@ -4,16 +4,12 @@
     ViewData["Title"] = "NewVisit";
 }
 
-
-
 <h1>ახალი ვიზიტი</h1>
 
 <br />
 <style>
 
 </style>
-
-
 
 <div class="row">
 
@@ -22,63 +18,50 @@
         <div class="form-group">
             <label class="control-label" class="col-sm-3"> ვიზიტის ტიპი</label>
             <select class="col-sm-12" name="tipi" class="form-select" aria-label="Default select example">
-
                 <option selected>აირჩიეთ ტიპი</option>
                 <option value="ბინა">ბინა</option>
                 <option value="ამბულატორია">ამბულატორია</option>
-
             </select>
         </div>
+
         <div class="form-group">
             <label class="control-label">თარიღი და დრო</label>
             <input name="tarigdro" type="datetime-local" class="form-control"/>
-
         </div>
 
         <div class="form-group">
             <label class="control-label" class="col-sm-3"> ვიზიტის ნომერი</label>
             <input class="col-sm-12" type="text" value="@ViewBag.max"/>
-
         </div>
 
         <div class="form-group">
             <label class="control-label" class="col-sm-3">ბენეფიციარი</label>
-
             <select class="col-sm-12" class="form-control" asp-items="ViewBag.Data" name="personalId">
                 <option value="">აირჩიეთ ბენეფიციარი</option>
             </select>
-
         </div>
-
 
         <div class="form-group">
             <label class="control-label" class="col-sm-3">სიმპტომები</label>
             <select class="col-sm-12" name="simptomebi" class="form-select" aria-label="Default select example">
-
                 <option selected>აირჩიეთ</option>
                 <option value="არა">კი</option>
                 <option value="არა">არა</option>
-
             </select>
         </div>
 
         <div class="form-group">
             <label class="control-label" class="col-sm-3">Covid-19/ანტიგენი</label>
             <select class="col-sm-12" name="mdgomareoba" class="form-select" aria-label="Default select example">
-
                 <option selected>აირჩიეთ</option>
                 <option value="ნეგატიური">ნეგატიური</option>
                 <option value="პოზიტიური">პოზიტიური</option>
-
             </select>
         </div>
-
 
         <br/>
 
         <button type="submit" class="btn btn-success">Register</button>
         <button asp-controller="Home" asp-action="Index" class="btn btn-danger">Cancel</button>
-
     </form>
-
 </div>

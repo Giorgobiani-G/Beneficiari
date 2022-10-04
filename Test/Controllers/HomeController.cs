@@ -26,9 +26,8 @@ namespace Test.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment _environment;
         private readonly BenDbContext _benDb;
-        //private Rectangle A4;
 
-        public HomeController(ILogger<HomeController> logger, BenDbContext dbContext,IWebHostEnvironment environment)
+        public HomeController(ILogger<HomeController> logger, BenDbContext dbContext, IWebHostEnvironment environment)
         {
             _logger = logger;
             _benDb = dbContext;
@@ -37,16 +36,13 @@ namespace Test.Controllers
 
         public IActionResult Index()
         {
-           
             return View();
         }
 
-        public async Task<IActionResult> Beneficiarebi(string SearchText,int pg=1)
+        public async Task<IActionResult> Beneficiarebi(string SearchText, int pg = 1)
         {
-            
-
             var vlistBeneficiaris = from bn in _benDb.Beneficiaris
-                orderby bn.Benid descending 
+                                    orderby bn.Benid descending
                                     select bn;
             const int pagesize = 5;
             if (pg < 1)
@@ -64,19 +60,16 @@ namespace Test.Controllers
 
             if (!String.IsNullOrEmpty(SearchText))
             {
-                    
-                var d = vlistBeneficiaris.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText)||(n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText));
+                var d = vlistBeneficiaris.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText) || (n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText));
                 return View(d);
             }
             else
             {
-
                 return View(data);
-
             }
 
             //return View(vlistBeneficiaris);
-            }
+        }
 
 
         public async Task<IActionResult> Edit(int? id)
@@ -86,7 +79,6 @@ namespace Test.Controllers
             {
                 return NotFound();
             }
-
 
             var ben = await _benDb.Beneficiaris.FindAsync(id);
 
@@ -98,40 +90,32 @@ namespace Test.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Beneficiari beneficiari,int pg)
+        public async Task<IActionResult> Edit(Beneficiari beneficiari, int pg)
 
         {
-
-
-
-
-
             _benDb.Update(beneficiari);
-
             await _benDb.SaveChangesAsync();
-
-            //return View("Beneficiarebi");
-
-            return RedirectToAction(nameof(Beneficiarebi),new {pg });
+            return RedirectToAction(nameof(Beneficiarebi), new { pg });
         }
 
-        public async  Task<IActionResult> Delete(int id)
-        {
-            var delben = await  (from De in _benDb.Beneficiaris
-                where De.Benid == id
-                select De).FirstOrDefaultAsync();
-            return View(delben);
-        }
-        [HttpPost]
-        public async Task<IActionResult> Delete(string id,int pg)
+        public async Task<IActionResult> Delete(int id)
         {
             var delben = await (from De in _benDb.Beneficiaris
-                where De.Piradobisnomeri == id
-                select De).FirstOrDefaultAsync();
-           _benDb.Beneficiaris.Remove(delben);
-               _benDb.SaveChanges();
+                                where De.Benid == id
+                                select De).FirstOrDefaultAsync();
+            return View(delben);
+        }
 
-               return RedirectToAction(nameof(Beneficiarebi), new { pg });
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, int pg)
+        {
+            var delben = await (from De in _benDb.Beneficiaris
+                                where De.Piradobisnomeri == id
+                                select De).FirstOrDefaultAsync();
+            _benDb.Beneficiaris.Remove(delben);
+            _benDb.SaveChanges();
+
+            return RedirectToAction(nameof(Beneficiarebi), new { pg });
         }
 
         public IActionResult Privacy()
@@ -142,42 +126,37 @@ namespace Test.Controllers
         public IActionResult NewVisit()
         {
             var nvisit = (from vs in _benDb.Beneficiaris
-                select new{Name= vs.Saxeli + " " +vs.Gvari + " " +"პ/ნ" + vs.Piradobisnomeri, Pirad=vs.Piradobisnomeri }).ToList();
+                          select new { Name = vs.Saxeli + " " + vs.Gvari + " " + "პ/ნ" + vs.Piradobisnomeri, Pirad = vs.Piradobisnomeri }).ToList();
 
             ViewBag.Data = nvisit.Select(x => new SelectListItem()
-                {
-                    Text = x.Name,
-                    Value = x.Pirad
-
-                }
+            {
+                Text = x.Name,
+                Value = x.Pirad
+            }
             ).ToList();
 
             var v = _benDb.Visits.Any();
 
-            if(!v)
+            if (!v)
             {
                 ViewBag.Max = 1;
             }
             else
             {
-                ViewBag.Max = _benDb.Visits.Max(o => o.Vsid)+1;
+                ViewBag.Max = _benDb.Visits.Max(o => o.Vsid) + 1;
             }
 
-
-            return  View();
+            return View();
         }
 
-        
+
         [HttpPost]
-        public async Task<IActionResult> NewVisit(string personalId,string tipi,DateTime tarigdro,string simptomebi, string mdgomareoba)
+        public async Task<IActionResult> NewVisit(string personalId, string tipi, DateTime tarigdro, string simptomebi, string mdgomareoba)
         {
 
             var benresult = (from ben in _benDb.Beneficiaris
-                     where ben.Piradobisnomeri == personalId
-                     select ben).FirstOrDefault();
-
-
-
+                             where ben.Piradobisnomeri == personalId
+                             select ben).FirstOrDefault();
 
             Visit vs = new Visit
             {
@@ -191,24 +170,18 @@ namespace Test.Controllers
                 Mdgomareoba = mdgomareoba
             };
 
-
-
             _benDb.Visits.Add(vs);
 
             await _benDb.SaveChangesAsync();
-            //await Response.WriteAsync(checkBox.ToString());
-
-
+          
             return RedirectToAction(nameof(NewVisit));
-
-            
         }
 
 
         public async Task<IActionResult> ListVisit(string SearchText, int pg = 1)
         {
             var v = from vs in _benDb.Visits
-                select vs;
+                    select vs;
 
             const int pagesize = 5;
             if (pg < 1)
@@ -231,7 +204,6 @@ namespace Test.Controllers
             }
             else
             {
-
                 return View(data);
             }
 
@@ -245,37 +217,35 @@ namespace Test.Controllers
         }
 
         [HttpPost]
-        public async  Task<IActionResult> Registracia(Beneficiari beneficiari)
+        public async Task<IActionResult> Registracia(Beneficiari beneficiari)
         {
-            
-                Beneficiari b = new Beneficiari
-                {
-                    Piradobisnomeri = beneficiari.Piradobisnomeri,
-                    Saxeli = beneficiari.Saxeli,
-                    Gvari = beneficiari.Gvari,
-                    Misamarti = beneficiari.Misamarti,
-                    Telefoni = beneficiari.Telefoni,
-                    Tarigi = beneficiari.Tarigi,
-                    DabTarigi = beneficiari.DabTarigi
-                };
-                _benDb.Add(b);
-                await _benDb.SaveChangesAsync();
+            Beneficiari b = new Beneficiari
+            {
+                Piradobisnomeri = beneficiari.Piradobisnomeri,
+                Saxeli = beneficiari.Saxeli,
+                Gvari = beneficiari.Gvari,
+                Misamarti = beneficiari.Misamarti,
+                Telefoni = beneficiari.Telefoni,
+                Tarigi = beneficiari.Tarigi,
+                DabTarigi = beneficiari.DabTarigi
+            };
 
-            
+            _benDb.Add(b);
+
+            await _benDb.SaveChangesAsync();
+
             ModelState.Clear();
-            
+
             return View("~/Views/Test/Registration.cshtml");
         }
 
 
         public async Task<IActionResult> VisitEdit(int? id)
-
         {
             if (id == null)
             {
                 return NotFound();
             }
-
 
             var vis = await _benDb.Visits.FindAsync(id);
 
@@ -288,48 +258,38 @@ namespace Test.Controllers
 
         [HttpPost]
         public async Task<IActionResult> VisitEdit(Visit vis, int pg)
-
         {
-
-
-
-
-
             _benDb.Update(vis);
 
             await _benDb.SaveChangesAsync();
 
-            //return View("Beneficiarebi");
-
-            return RedirectToAction(nameof(ListVisit),new { pg });
+            return RedirectToAction(nameof(ListVisit), new { pg });
         }
 
-
-        public async  Task<IActionResult> VisDelete(int id)
+        public async Task<IActionResult> VisDelete(int id)
         {
-            var delvis = await  (from De in _benDb.Visits
-                where De.Vsid == id
-                select De).FirstOrDefaultAsync();
+            var delvis = await (from De in _benDb.Visits
+                                where De.Vsid == id
+                                select De).FirstOrDefaultAsync();
             return View(delvis);
         }
+
+
         [HttpPost]
         public async Task<IActionResult> VisDelete(string id, int pg)
         {
             var delvis = await (from De in _benDb.Visits
-                where De.Piradoba == id
-                select De).FirstOrDefaultAsync();
-           _benDb.Visits.Remove(delvis);
-               _benDb.SaveChanges();
+                                where De.Piradoba == id
+                                select De).FirstOrDefaultAsync();
+            _benDb.Visits.Remove(delvis);
+            _benDb.SaveChanges();
 
-               return RedirectToAction(nameof(ListVisit),new {pg});
+            return RedirectToAction(nameof(ListVisit), new { pg });
         }
-
-
-
 
         public IActionResult BenefToExcel()
         {
-            using(var workbook = new XLWorkbook())
+            using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Beneficiarebi");
                 var currentrow = 1;
@@ -345,7 +305,7 @@ namespace Test.Controllers
                 foreach (var beneficiari in _benDb.Beneficiaris)
                 {
                     currentrow++;
-                    
+
                     worksheet.Cell(currentrow, 1).Value = "'" + beneficiari.Piradobisnomeri;
                     worksheet.Cell(currentrow, 2).Value = beneficiari.Saxeli;
                     worksheet.Cell(currentrow, 3).Value = beneficiari.Gvari;
@@ -360,13 +320,12 @@ namespace Test.Controllers
                 {
                     workbook.SaveAs(stream);
                     var content = stream.ToArray();
-                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","BeneficiariInfo.xlsx");
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "BeneficiariInfo.xlsx");
                 }
             }
-
             //return RedirectToAction(nameof(Beneficiarebi));
         }
-            
+
         public IActionResult VisitToExcel()
         {
             using (var workbook = new XLWorkbook())
@@ -382,7 +341,7 @@ namespace Test.Controllers
                 worksheet.Cell(currentrow, 7).Value = "სიმპტომი";
                 worksheet.Cell(currentrow, 8).Value = "იუზერი";
                 worksheet.Cell(currentrow, 9).Value = "მდგომარეობა";
-               
+
                 foreach (var visitorebi in _benDb.Visits)
                 {
                     currentrow++;
@@ -395,7 +354,6 @@ namespace Test.Controllers
                     worksheet.Cell(currentrow, 7).Value = visitorebi.Symptomi;
                     worksheet.Cell(currentrow, 8).Value = visitorebi.Currentuser;
                     worksheet.Cell(currentrow, 9).Value = visitorebi.Mdgomareoba;
-                   
                 }
 
                 using (var stream = new MemoryStream())
@@ -405,18 +363,13 @@ namespace Test.Controllers
                     return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "VisitorebiInfo.xlsx");
                 }
             }
-
             //return RedirectToAction(nameof(ListVisit));
         }
 
         public IActionResult PrintPdf(int id)
         {
             var dbvstor = (from vstor in _benDb.Visits.Where(o => o.Vsid == id)
-                select vstor).FirstOrDefault();
-
-
-            
-            
+                           select vstor).FirstOrDefault();
 
             #region
             //var pdfDoc = new Document(new Rectangle(21f,29.7f), 40f, 40f, 60f, 60f);
@@ -505,8 +458,6 @@ namespace Test.Controllers
 
             graphics.DrawString("საქველმოქმედო ფონდ „საქართველოს კარიტასი“-ის ჯანმრთელობის დაცვის პროგრამა", font, PdfBrushes.Black, new PointF(25f, 250f));
 
-
-
             //Load the image from the disk
 
             FileStream imageStream = new FileStream("Logo.png", FileMode.Open, FileAccess.Read);
@@ -516,8 +467,6 @@ namespace Test.Controllers
             //Draw the image
 
             graphics.DrawImage(image, 200f, 0);
-
-
 
             //Create a PdfLightTable.
 
@@ -543,7 +492,6 @@ namespace Test.Controllers
 
             string saxeligvaripiradoba = dbvstor.Saxeli + " " + dbvstor.Gvari + "/" + dbvstor.Piradoba;
             string shedegi = dbvstor.Mdgomareoba;
-            
 
             pdfLightTable.Rows.Add(new object[] { "COVID-19 ანტიგენის სწრაფი ტესტი", tarigi, saxeligvaripiradoba, shedegi });
 
@@ -569,7 +517,6 @@ namespace Test.Controllers
 
             pdfLightTable.Style.DefaultStyle = altStyle;
 
-
             //Show header in the table
 
             pdfLightTable.Style.ShowHeader = true;
@@ -578,11 +525,9 @@ namespace Test.Controllers
 
             pdfLightTable.Draw(page, 20f, 400f);
 
-
             //Draw the text.
-            string name = dbvstor.Currentuser;            
+            string name = dbvstor.Currentuser;
             graphics.DrawString($"განმახორციელებელი პირი :                    {name}", font, PdfBrushes.Black, new PointF(160f, 650f));
-
 
             PdfCreationDateField pdfCreationDateField = new PdfCreationDateField();
 
@@ -627,6 +572,6 @@ namespace Test.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        
+
     }
 }

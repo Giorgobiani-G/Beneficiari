@@ -21,7 +21,6 @@
 
 <h1>ვიზიტორები</h1>
 
-
 <br>
 
 <form asp-controller="Home" asp-action="ListVisit" method="post">
@@ -57,7 +56,6 @@
             <th>
                 ვიზიტის თარიღი
             </th>
-
             <th>
                 სიმპტომი
             </th>
@@ -67,54 +65,51 @@
             <th>
                 მდგომარეობა
             </th>
-
             <th>
-
         </tr>
     </thead>
 
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vsid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Piradoba)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Saxeli)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gvari)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VistisTipi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TarigiDro)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Symptomi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Currentuser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mdgomareoba)
-            </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Vsid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Piradoba)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Saxeli)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gvari)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VistisTipi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TarigiDro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Symptomi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currentuser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mdgomareoba)
+                </td>
+                <td>
+                    <a asp-action="VisitEdit" asp-route-id="@item.Vsid">Edit</a> |
 
-            <td>
-                <a asp-action="VisitEdit" asp-route-id="@item.Vsid">Edit</a> |
+                    <a asp-action="VisDelete" asp-route-id="@item.Vsid">Delete</a> |
 
-                <a asp-action="VisDelete" asp-route-id="@item.Vsid">Delete</a> |
+                    <a id="btnpdf" name="id" asp-action="PrintPdf" asp-route-id="@item.Vsid">Print</a> |
 
-                <a id="btnpdf" name="id" asp-action="PrintPdf" asp-route-id="@item.Vsid">Print</a> |
-
-                <a id="btnpdf" name="id" asp-action="GeneratePdfDocument" asp-route-id="@item.Vsid">PrintPdf</a>
-            </td>
-        </tr>
+                    <a id="btnpdf" name="id" asp-action="GeneratePdfDocument" asp-route-id="@item.Vsid">PrintPdf</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -134,7 +129,6 @@
                 </li>
             }
 
-
             @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
             {
                 <li class="page-item @(pge==pager.CurrentPage ? "active" : "")">
@@ -153,7 +147,6 @@
                 </li>
             }
 
-
-        </ul>}
-
+        </ul>
+    }
 </div>

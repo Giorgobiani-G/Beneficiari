@@ -20,13 +20,12 @@ namespace Test.Controllers
         {
             this._benDbContext = benDbContext;
         }
-
-       
+      
         public IActionResult Login()
-        {
-           
+        {          
             return View();
         }
+
         [HttpPost]
         public IActionResult Login(Login login)
         {
@@ -47,8 +46,6 @@ namespace Test.Controllers
                  RedirectToAction("Login","Login");
                 ModelState.Clear();
             }
-
-            
             
             return View();
         }
@@ -58,7 +55,6 @@ namespace Test.Controllers
             issinged = false;
             user = null;
            return RedirectToAction("Index", "Home");
-
         }
     }
 }

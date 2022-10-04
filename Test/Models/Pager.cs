@@ -14,17 +14,12 @@ namespace Test.Models
         public int StartPage { get; private set; }
         public int EndPage { get; private set; }
 
-        public Pager()
-        {
-
-        }
+        public Pager() { }
+   
         public Pager(int totalItems,int page,int pageSize=5)
         {
             int totalpages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
-
             int currentpage = page;
-
-
             int startpage = currentpage - 5;
             int endpage = currentpage + 4;
 
@@ -50,7 +45,5 @@ namespace Test.Models
             StartPage = startpage;
             EndPage = endpage;
         }
-
-
     }
 }

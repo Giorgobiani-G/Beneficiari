@@ -13,15 +13,11 @@ namespace Test.Models
 
         [Key]
         public int Benid { get; set; }
-
-
         public string Piradobisnomeri { get; set; }
         public string Saxeli { get; set; }
         public string Gvari { get; set; }
-
         public int Asaki { get; private set; }
         public string Misamarti { get; set; }
-
         public int Telefoni { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}")]
@@ -35,7 +31,6 @@ namespace Test.Models
                 Asaki = (new DateTime(1, 1, 1) + (DateTime.Now - DabTarigi)).Year-1;
             }
         }
-
         public void SetBirthDate(DateTime value)
         {
             _birthDate = value;

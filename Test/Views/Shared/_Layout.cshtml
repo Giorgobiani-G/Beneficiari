@@ -8,23 +8,21 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <style>
-        .btn{
-            margin-left:10px;
+        .btn {
+            margin-left: 10px;
         }
-
-
     </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Test</a>*@
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                
+
                 @if (!LoginController.issinged)
                 {
                     <ul class="navbar-nav ml-auto">
@@ -34,40 +32,30 @@
                         <li class="nav-item">
                             <a asp-controller="Login" asp-action="Login"> <button type="button" class="btn btn-primary">Login</button> </a>
                         </li>
-
                     </ul>
                 }
                 else
                 {
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        @*<li class="nav-item" >
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>*@
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                        </ul>
+                    </div>
 
-                    </ul>
-                </div>
-                 
-                    
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <form method="post" asp-action="Logout" asp-controller="Login">
-                                <button type="submit"  class="btn btn-primary" >Logout @LoginController.user </button> 
+                                <button type="submit" class="btn btn-primary">Logout @LoginController.user </button>
                             </form>
-                           
                         </li>
-                        
-
-                     </ul>
+                    </ul>
                 }
-                
             </div>
-           
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

@@ -11,19 +11,13 @@ namespace Test.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         public string Username { get; set; }
+
         [DataType(DataType.Password)]
         [Required]
         public string Password { get; set; }
-
-        //[NotMapped]
-        //[Required]
-        //[DataType(DataType.Password)]
-        //[Compare("Password",
-        //    ErrorMessage = "Password and confirmation password do not match.")]
-        //public string ConfirmPassword { get; set; }
-
         public bool? IsSigned { get; set; }
     }
 }
