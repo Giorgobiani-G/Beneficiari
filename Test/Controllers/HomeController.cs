@@ -45,35 +45,36 @@ namespace Test.Controllers
                                     orderby bn.Benid descending
                                     select bn;
             const int pagesize = 5;
+
             if (pg < 1)
             {
                 pg = 1;
             }
+
             int benefcount = vlistBeneficiaris.Count();
             var pager = new Pager(benefcount, pg, pagesize);
             int benfskip = (pg - 1) * pagesize;
 
             var data = await vlistBeneficiaris.Skip(benfskip).Take(pager.PageSize).ToListAsync();
-            this.ViewBag.Pager = pager;
+
+            ViewBag.Pager = pager;
 
             TempData["page"] = pg;
 
-            if (!String.IsNullOrEmpty(SearchText))
+            if (!string.IsNullOrEmpty(SearchText))
             {
                 var d = vlistBeneficiaris.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText) || (n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText));
                 return View(d);
             }
+
             else
             {
                 return View(data);
             }
-
-            //return View(vlistBeneficiaris);
         }
 
 
         public async Task<IActionResult> Edit(int? id)
-
         {
             if (id == null)
             {
@@ -91,7 +92,6 @@ namespace Test.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Edit(Beneficiari beneficiari, int pg)
-
         {
             _benDb.Update(beneficiari);
             await _benDb.SaveChangesAsync();
@@ -184,20 +184,23 @@ namespace Test.Controllers
                     select vs;
 
             const int pagesize = 5;
+
             if (pg < 1)
             {
                 pg = 1;
             }
+
             int benefcount = v.Count();
             var pager = new Pager(benefcount, pg, pagesize);
             int benfskip = (pg - 1) * pagesize;
 
             var data = await v.Skip(benfskip).Take(pager.PageSize).ToListAsync();
-            this.ViewBag.Pager = pager;
+
+            ViewBag.Pager = pager;
 
             TempData["page"] = pg;
 
-            if (!String.IsNullOrEmpty(SearchText))
+            if (!string.IsNullOrEmpty(SearchText))
             {
                 v = (IOrderedQueryable<Visit>)_benDb.Visits.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Piradoba.Contains(SearchText) || n.Symptomi.Contains(SearchText) || n.VistisTipi.Contains(SearchText) || n.Mdgomareoba.Contains(SearchText) || (n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText));
                 return View(await v.ToListAsync());
@@ -206,8 +209,6 @@ namespace Test.Controllers
             {
                 return View(data);
             }
-
-            //return View(v);
         }
 
 
@@ -323,7 +324,6 @@ namespace Test.Controllers
                     return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "BeneficiariInfo.xlsx");
                 }
             }
-            //return RedirectToAction(nameof(Beneficiarebi));
         }
 
         public IActionResult VisitToExcel()
@@ -363,7 +363,6 @@ namespace Test.Controllers
                     return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "VisitorebiInfo.xlsx");
                 }
             }
-            //return RedirectToAction(nameof(ListVisit));
         }
 
         public IActionResult PrintPdf(int id)
@@ -502,10 +501,11 @@ namespace Test.Controllers
 
             //Declare and define the header style.
 
-            PdfCellStyle headerStyle = new PdfCellStyle();
-
-            headerStyle.Font = new PdfTrueTypeFont(fontStream, 10f, PdfFontStyle.Bold);
-            headerStyle.StringFormat = format;
+            PdfCellStyle headerStyle = new PdfCellStyle
+            {
+                Font = new PdfTrueTypeFont(fontStream, 10f, PdfFontStyle.Bold),
+                StringFormat = format
+            };
 
             pdfLightTable.Style.HeaderStyle = headerStyle;
 

@@ -14,7 +14,7 @@ namespace Test.Controllers
         private readonly BenDbContext  _benDbContext;
         public RegistrationController(BenDbContext bdContext)
         {
-            this._benDbContext = bdContext;
+            _benDbContext = bdContext;
         }
         public IActionResult Registracia()
         {
@@ -39,11 +39,13 @@ namespace Test.Controllers
             }
             else
             {
-                Registration reencpass = new Registration();
-                reencpass.Id = reg.Id;
-                reencpass.Username = reg.Username;
-                reencpass.Password = encpasswprd;
-                reencpass.IsSigned = reg.IsSigned;
+                Registration reencpass = new Registration
+                {
+                    Id = reg.Id,
+                    Username = reg.Username,
+                    Password = encpasswprd,
+                    IsSigned = reg.IsSigned
+                };
 
                 _benDbContext.Registrations.Add(reencpass);
                 _benDbContext.SaveChanges();

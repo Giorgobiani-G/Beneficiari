@@ -18,7 +18,7 @@ namespace Test.Controllers
 
         public LoginController(BenDbContext benDbContext)
         {
-            this._benDbContext = benDbContext;
+            _benDbContext = benDbContext;
         }
       
         public IActionResult Login()
