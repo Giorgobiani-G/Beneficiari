@@ -1,23 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Syncfusion.Drawing;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Pdf.Tables;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Drawing;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Test.Data;
 using Test.Models;
-using Syncfusion.Pdf;
-using Syncfusion.Pdf.Graphics;
-using Syncfusion.Drawing;
-using Syncfusion.Pdf.Tables;
 
 namespace Test.Controllers
 {
@@ -39,40 +39,64 @@ namespace Test.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Beneficiarebi(string SearchText, int pg = 1)
+        public async Task<IActionResult> Beneficiarebi(string SearchText, int pageSize, int pg = 1)
         {
-            var vlistBeneficiaris = from bn in _benDb.Beneficiaris
-                                    orderby bn.Benid descending
-                                    select bn;
-            const int pagesize = 5;
+            var list = from bn in _benDb.Beneficiaris
+                       orderby bn.Benid descending
+                       select bn;
 
             if (pg < 1)
-            {
                 pg = 1;
-            }
 
-            int benefcount = vlistBeneficiaris.Count();
-            var pager = new Pager(benefcount, pg, pagesize);
-            int benfskip = (pg - 1) * pagesize;
+            if (pageSize == 0)
+                pageSize = 10;
 
-            var data = await vlistBeneficiaris.Skip(benfskip).Take(pager.PageSize).ToListAsync();
+            ViewBag.Page = pageSize;
+
+            int benefCount = list.Count();
+            var pager = new Pager(benefCount, pg, pageSize);
+            int benfSkip = (pg - 1) * pageSize;
+
+            var data = await list.Skip(benfSkip).Take(pager.PageSize).ToListAsync();
 
             ViewBag.Pager = pager;
 
             TempData["page"] = pg;
 
+            ViewBag.PageSizes = GetPageSizes(pageSize);
+
             if (!string.IsNullOrEmpty(SearchText))
             {
-                var d = vlistBeneficiaris.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText) || (n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText));
-                return View(d);
-            }
+                var dt = await list.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText)
+                || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText)
+                || (n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText)).ToListAsync();
 
+                return View(dt);
+            }
             else
             {
                 return View(data);
             }
         }
 
+        private List<SelectListItem> GetPageSizes(int selectedPageSize)
+        {
+            var pageSizes = new List<SelectListItem>();
+
+            for (int i = 10; i <= 50; i += 10)
+            {
+                if (i == selectedPageSize)
+                {
+                    pageSizes.Add(new SelectListItem(i.ToString(), i.ToString(), true));
+                }
+                else
+                {
+                    pageSizes.Add(new SelectListItem(i.ToString(), i.ToString()));
+                }
+            }
+
+            return pageSizes;
+        }
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -173,7 +197,7 @@ namespace Test.Controllers
             _benDb.Visits.Add(vs);
 
             await _benDb.SaveChangesAsync();
-          
+
             return RedirectToAction(nameof(NewVisit));
         }
 

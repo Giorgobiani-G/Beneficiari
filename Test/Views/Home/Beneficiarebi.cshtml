@@ -15,16 +15,28 @@
 
 
 <form asp-controller="Home" asp-action="Beneficiarebi" method="post">
+
     <p>
-        <input type="text" name="SearchText">
+        <input type="text" name="SearchText" id="SearchText">
         <input type="submit" value="Search" />
         <a asp-action="Beneficiarebi">Back To Full List</a>
     </p>
+
+    <div class="row float-right">
+        <div class="p-2">
+            Showing @((pager.CurrentPage - 1) * pager.PageSize + 1)-@(pager.PageSize * pager.CurrentPage) of @pager.TotalItems Items
+        </div>
+        <span class="float-right">
+            <select class="form-control" asp-items="ViewBag.PageSizes" onchange="ChangePageSize(this);">
+            </select>
+        </span>
+    </div>
 </form>
 
-<div class="nav-item">
+<div class="nav-item inline">
     <a asp-controller="Home" asp-action="BenefToExcel"> <img src="https://img.icons8.com/material-rounded/24/26e07f/export-excel.png" /> </a>
 </div>
+
 
 <table class="table">
     <thead>
@@ -104,27 +116,36 @@
             @if (pager.CurrentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="1">First</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pageSize="@ViewBag.Page" asp-route-pg="1">First</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="@(pager.CurrentPage-1)">Previous</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pageSize="@ViewBag.Page" asp-route-pg="@(pager.CurrentPage-1)">Previous</a>
                 </li>
             }
             @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
             {
                 <li class="page-item @(pge==pager.CurrentPage ? "active" : "")">
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="@pge">@pge</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pageSize="@ViewBag.Page" asp-route-pg="@pge">@pge</a>
                 </li>
             }
             @if (pager.CurrentPage < pager.TotalPages)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pageSize="@ViewBag.Page" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
                 </li>
                 <li>
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pg="@(pager.TotalPages)">Last</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-pageSize="@ViewBag.Page" asp-route-pg="@(pager.TotalPages)">Last</a>
                 </li>
             }
         </ul>
     }
 </div>
+
+<script>
+    function ChangePageSize(obj) {
+        var singleValues = $("#SearchText").val();
+        window.location.href = "/Home/Beneficiarebi" + "?pageSize=" + obj.value;
+    }
+</script>
+
+
