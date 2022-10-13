@@ -67,7 +67,8 @@ namespace Test.Controllers
 
             if (!string.IsNullOrEmpty(SearchText))
             {
-                var dt = await list.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText)
+                var date = Convert.ToDateTime(SearchText);
+                var dt = await list.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Tarigi== date || n.DabTarigi== date
                 || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText)
                 || (n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText)).ToListAsync();
 

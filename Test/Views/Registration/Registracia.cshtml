@@ -10,29 +10,25 @@
 
 <h1>რეგისტრაცია</h1>
 
-<div class="row" style="align-items: baseline">
-    <form method="post" class="form-horizontal" role="form">
-        <div asp-validation-summary="All" class="text-danger"></div>
+<div class="row">
+    <div class="col-md-3">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
 
-        <div class="form-group">
-            <label asp-for="Username" class="col-sm-3 control-label">მომხმარებელი</label>
-            <div class="col-sm-12">
-                <input asp-for="Username" type="text" id="firstName" placeholder="მომხმარებელი" class="form-control" autofocus>
-                <span asp-validation-for="Username" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Username">მომხმარებელი</label>             
+                    <input asp-for="Username" type="text" id="firstName" placeholder="მომხმარებელი" class="form-control" autofocus>
+                    <span asp-validation-for="Username" class="text-danger"></span>             
             </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Password" class="col-sm-3 control-label">პაროლი</label>
-            <div class="col-sm-12">
-                <input asp-for="Password" type="Password" id="password" placeholder="პაროლი" class="form-control" name="Password">
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Password">პაროლი</label>
+                    <input asp-for="Password" type="Password" id="password" placeholder="პაროლი" class="form-control" name="Password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-block">Register</button>
-    </form>
-    <br/>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+    <br />
 </div>
-<br/>
+<br />
 <p>@ViewBag.Message</p>
