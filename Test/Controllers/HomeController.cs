@@ -39,12 +39,37 @@ namespace Test.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Beneficiarebi(string SearchText, int pageSize, int pg = 1)
+        public async Task<IActionResult> Beneficiarebi(string searchText, int pageSize, int pg = 1)
         {
             var list = from bn in _benDb.Beneficiaris
                        orderby bn.Benid descending
                        select bn;
 
+            IEnumerable<Beneficiari> data = await list.ToListAsync();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+
+                bool isInt = int.TryParse(searchText, out int resInt);
+
+                if (isInt)
+                {
+                    data = await list.Where(x => x.Asaki == resInt || x.Telefoni == resInt || x.Piradobisnomeri.Contains(searchText)).ToListAsync();
+                }
+                else
+                {
+                    data = await list.Where(n => n.Saxeli.Contains(searchText) || n.Gvari.Contains(searchText)
+                   || n.Piradobisnomeri.Contains(searchText) || n.Misamarti.Contains(searchText)
+                   || (n.Saxeli + " " + n.Gvari).Contains(searchText) || (n.Gvari + " " + n.Saxeli).Contains(searchText)).ToListAsync();
+
+                    bool isDateTime = DateTime.TryParse(searchText, out DateTime resDateTime);
+
+                    if (isDateTime)
+                        data = await list.Where(x => x.Tarigi == resDateTime || x.DabTarigi == resDateTime).ToListAsync();
+                }
+            }
+
+            #region Paging
             if (pg < 1)
                 pg = 1;
 
@@ -53,31 +78,22 @@ namespace Test.Controllers
 
             ViewBag.Page = pageSize;
 
-            int benefCount = list.Count();
+            int benefCount = data.Count();
             var pager = new Pager(benefCount, pg, pageSize);
             int benfSkip = (pg - 1) * pageSize;
 
-            var data = await list.Skip(benfSkip).Take(pager.PageSize).ToListAsync();
+            data = data.Skip(benfSkip).Take(pager.PageSize);
 
             ViewBag.Pager = pager;
+
+            ViewBag.CurrentFilter = searchText;
 
             TempData["page"] = pg;
 
             ViewBag.PageSizes = GetPageSizes(pageSize);
+            #endregion
 
-            if (!string.IsNullOrEmpty(SearchText))
-            {
-                var date = Convert.ToDateTime(SearchText);
-                var dt = await list.Where(n => n.Saxeli.Contains(SearchText) || n.Gvari.Contains(SearchText) || n.Tarigi== date || n.DabTarigi== date
-                || n.Piradobisnomeri.Contains(SearchText) || n.Misamarti.Contains(SearchText)
-                || (n.Saxeli + " " + n.Gvari).Contains(SearchText) || (n.Gvari + " " + n.Saxeli).Contains(SearchText)).ToListAsync();
-
-                return View(dt);
-            }
-            else
-            {
-                return View(data);
-            }
+            return View(data);
         }
 
         private List<SelectListItem> GetPageSizes(int selectedPageSize)

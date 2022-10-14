@@ -28,7 +28,7 @@ namespace Test.Models
             set
             {
                 _birthDate = value;
-                Asaki = (new DateTime(1, 1, 1) + (DateTime.Now - DabTarigi)).Year-1;
+                Asaki = (new DateTime(1, 1, 1) + (DateTime.Now - _birthDate)).Year-1;
             }
         }
         public void SetBirthDate(DateTime value)
