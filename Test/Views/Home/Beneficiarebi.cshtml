@@ -24,7 +24,7 @@
 
     <div class="row float-right">
         <div class="p-2">
-            Showing @((pager.CurrentPage - 1) * pager.PageSize + 1)-@(pager.PageSize * pager.CurrentPage) of @pager.TotalItems Items
+            Showing @((pager.CurrentPage - 1) * pager.PageSize + 1)-@(pager.PageSize * pager.CurrentPage > pager.TotalItems ? pager.TotalItems : pager.PageSize * pager.CurrentPage) of @pager.TotalItems Items
         </div>
         <span class="float-right">
             <select class="form-control" asp-items="ViewBag.PageSizes" onchange="ChangePageSize(this);">
