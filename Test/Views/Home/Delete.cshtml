@@ -1,6 +1,13 @@
 ﻿@model Beneficiari
 @{
     ViewData["Title"] = "Delete";
+
+    var prms = new Dictionary<string, string>
+            {
+                { "pg", TempData["page"].ToString()},
+                { "pageSize", TempData["pageSize"].ToString()},
+                { "searchText", TempData["filter"] == null ? "" : TempData["filter"].ToString()}
+            };
 }
 
 <h1>Delete</h1>
@@ -49,6 +56,6 @@
 <br />
 <form asp-action="Delete" method="post">
     <input type="hidden" name="id" value="@Model.Piradobisnomeri" />
-    <input type="submit" value="Delete" asp-route-pg=@TempData["page"] class="btn btn-danger" />
-    <a asp-action="Beneficiarebi" asp-route-pg=@TempData["page"]>No</a>
+    <input type="submit" value="Delete" asp-all-route-data="prms" class="btn btn-danger" />
+    <a asp-action="Beneficiarebi" asp-all-route-data="prms">No</a>
 </form>

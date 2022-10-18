@@ -76,7 +76,8 @@ namespace Test.Controllers
             if (pageSize == 0)
                 pageSize = 10;
 
-            ViewBag.Page = pageSize;
+            //ViewBag.Page = pageSize;
+            TempData["pageSize"] = pageSize;
 
             int benefCount = data.Count();
             var pager = new Pager(benefCount, pg, pageSize);
@@ -86,7 +87,8 @@ namespace Test.Controllers
 
             ViewBag.Pager = pager;
 
-            ViewBag.CurrentFilter = searchText;
+            //ViewBag.CurrentFilter = searchText;
+            TempData["filter"] = searchText;
 
             TempData["page"] = pg;
 
@@ -115,11 +117,11 @@ namespace Test.Controllers
             return pageSizes;
         }
 
-        public async Task<IActionResult> Edit(int? id, int pageSize, string searchText)
+        public async Task<IActionResult> Edit(int? id/*, int pageSize, string searchText*/)
         {
-            ViewBag.Page = pageSize;
-            ViewBag.CurrentFilter = searchText;
-
+            //ViewBag.Page = pageSize;
+            //ViewBag.CurrentFilter = searchText;
+          
             if (id == null)
             {
                 return NotFound();
@@ -151,7 +153,7 @@ namespace Test.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id, int pg)
+        public async Task<IActionResult> Delete(string id, int pg, int pageSize, string searchText)
         {
             var delben = await (from De in _benDb.Beneficiaris
                                 where De.Piradobisnomeri == id
@@ -159,7 +161,7 @@ namespace Test.Controllers
             _benDb.Beneficiaris.Remove(delben);
             _benDb.SaveChanges();
 
-            return RedirectToAction(nameof(Beneficiarebi), new { pg });
+            return RedirectToAction(nameof(Beneficiarebi), new { pg, pageSize, searchText });
         }
 
         public IActionResult Privacy()

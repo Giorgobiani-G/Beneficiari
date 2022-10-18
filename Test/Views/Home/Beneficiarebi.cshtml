@@ -8,18 +8,25 @@
         pager = ViewBag.Pager;
         pageNo = pager.CurrentPage;
     }
+
+    var parms = new Dictionary<string, string>
+            {
+                { "pageSize", TempData["pageSize"].ToString()},
+                { "searchText", TempData["filter"] == null ? "" : TempData["filter"].ToString()}
+            };
+    TempData.Keep();
 }
 
 <h1>ბენეფიციარები</h1>
 <br />
 
 
-<form asp-controller="Home" asp-action="Beneficiarebi" asp-route-pageSize="@ViewBag.Page" method="post">
+<form asp-controller="Home" asp-action="Beneficiarebi" asp-route-pageSize="@TempData["pageSize"]" method="post">
 
     <p>
-        <input type="text" name="searchText" id="searchText" value="@ViewBag.CurrentFilter">
+        <input type="text" name="searchText" id="searchText" value="@TempData["filter"]">
         <input type="submit" value="Search" />
-        <a asp-action="Beneficiarebi" asp-route-pageSize="@ViewBag.Page">Back To Full List</a>
+        <a asp-action="Beneficiarebi" asp-route-pageSize="@TempData["pageSize"]">Back To Full List</a>
     </p>
 
     <div class="row float-right">
@@ -100,8 +107,8 @@
                     @Html.DisplayFor(modelItem => item.Telefoni)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Benid" asp-route-pageSize="@ViewBag.Page" asp-route-searchText="@ViewBag.CurrentFilter">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Benid" asp-route-pageSize="@ViewBag.Page" asp-route-searchText="@ViewBag.CurrentFilter">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Benid">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Benid">Delete</a>
                 </td>
             </tr>
         }
@@ -116,25 +123,25 @@
             @if (pager.CurrentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-searchText="@ViewBag.CurrentFilter" asp-route-pageSize="@ViewBag.Page" asp-route-pg="1">First</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-all-route-data="parms" asp-route-pg="1">First</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-searchText="@ViewBag.CurrentFilter" asp-route-pageSize="@ViewBag.Page" asp-route-pg="@(pager.CurrentPage-1)">Previous</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-all-route-data="parms" asp-route-pg="@(pager.CurrentPage-1)">Previous</a>
                 </li>
             }
             @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
             {
                 <li class="page-item @(pge==pager.CurrentPage ? "active" : "")">
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-searchText="@ViewBag.CurrentFilter" asp-route-pageSize="@ViewBag.Page" asp-route-pg="@pge">@pge</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-all-route-data="parms" asp-route-pg="@pge">@pge</a>
                 </li>
             }
             @if (pager.CurrentPage < pager.TotalPages)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-searchText="@ViewBag.CurrentFilter" asp-route-pageSize="@ViewBag.Page" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-all-route-data="parms" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
                 </li>
                 <li>
-                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-route-searchText="@ViewBag.CurrentFilter" asp-route-pageSize="@ViewBag.Page" asp-route-pg="@(pager.TotalPages)">Last</a>
+                    <a class="page-link" asp-controller="Home" asp-action="Beneficiarebi" asp-all-route-data="parms" asp-route-pg="@(pager.TotalPages)">Last</a>
                 </li>
             }
         </ul>
