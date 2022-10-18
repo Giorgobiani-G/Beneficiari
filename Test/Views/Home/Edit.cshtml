@@ -53,8 +53,8 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" asp-route-pg=@TempData["page"] class="btn btn-primary" />
-                <button asp-action="Beneficiarebi" asp-route-pg=@TempData["page"] class="btn btn-danger">Cancel</button>
+                <input type="submit" value="Save" asp-route-pg=@TempData["page"] asp-route-pageSize="@ViewBag.Page" asp-route-searchText="@ViewBag.CurrentFilter" class="btn btn-primary" />
+                <button asp-action="Beneficiarebi" asp-route-pg=@TempData["page"] asp-route-pageSize="@ViewBag.Page" asp-route-searchText="@ViewBag.CurrentFilter" class="btn btn-danger">Cancel</button>
             </div>
         </form>
     </div>

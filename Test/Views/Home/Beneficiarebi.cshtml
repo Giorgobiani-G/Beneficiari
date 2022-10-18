@@ -100,8 +100,8 @@
                     @Html.DisplayFor(modelItem => item.Telefoni)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Benid">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Benid">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Benid" asp-route-pageSize="@ViewBag.Page" asp-route-searchText="@ViewBag.CurrentFilter">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Benid" asp-route-pageSize="@ViewBag.Page" asp-route-searchText="@ViewBag.CurrentFilter">Delete</a>
                 </td>
             </tr>
         }

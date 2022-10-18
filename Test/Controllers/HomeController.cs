@@ -115,8 +115,11 @@ namespace Test.Controllers
             return pageSizes;
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int pageSize, string searchText)
         {
+            ViewBag.Page = pageSize;
+            ViewBag.CurrentFilter = searchText;
+
             if (id == null)
             {
                 return NotFound();
@@ -132,11 +135,11 @@ namespace Test.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Beneficiari beneficiari, int pg)
+        public async Task<IActionResult> Edit(Beneficiari beneficiari, int pg, int pageSize, string searchText)
         {
             _benDb.Update(beneficiari);
             await _benDb.SaveChangesAsync();
-            return RedirectToAction(nameof(Beneficiarebi), new { pg });
+            return RedirectToAction(nameof(Beneficiarebi), new { pg, pageSize,searchText});
         }
 
         public async Task<IActionResult> Delete(int id)
