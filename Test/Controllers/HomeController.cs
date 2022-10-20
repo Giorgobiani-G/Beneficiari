@@ -76,23 +76,19 @@ namespace Test.Controllers
             if (pageSize == 0)
                 pageSize = 10;
 
-            //ViewBag.Page = pageSize;
-            TempData["pageSize"] = pageSize;
-
             int benefCount = data.Count();
             var pager = new Pager(benefCount, pg, pageSize);
             int benfSkip = (pg - 1) * pageSize;
-
             data = data.Skip(benfSkip).Take(pager.PageSize);
-
             ViewBag.Pager = pager;
 
-            //ViewBag.CurrentFilter = searchText;
+            ViewBag.PageSizes = GetPageSizes(pageSize);
+
             TempData["filter"] = searchText;
 
             TempData["page"] = pg;
 
-            ViewBag.PageSizes = GetPageSizes(pageSize);
+            TempData["pageSize"] = pageSize;
             #endregion
 
             return View(data);
