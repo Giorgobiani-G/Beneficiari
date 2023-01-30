@@ -55,6 +55,26 @@ namespace Test.Migrations
                     b.ToTable("Beneficiaris");
                 });
 
+            modelBuilder.Entity("Test.Models.Registration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Registrations");
+                });
+
             modelBuilder.Entity("Test.Models.Visit", b =>
                 {
                     b.Property<int>("Vsid")
@@ -62,16 +82,28 @@ namespace Test.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Currentuser")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Gvari")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Mdgomareoba")
-                        .HasColumnType("bit");
+                    b.Property<string>("Mdgomareoba")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Piradoba")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Saxeli")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Symptomi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TarigiDro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("VistisTipi")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Vsid");

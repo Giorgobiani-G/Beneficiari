@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20210728084335_Four.cs" />
-    <Compile Remove="Migrations\20210728084335_Four.Designer.cs" />
-    <Compile Remove="Migrations\20210728084856_Four.cs" />
-    <Compile Remove="Migrations\20210728084856_Four.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">

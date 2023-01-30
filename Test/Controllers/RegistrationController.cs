@@ -41,10 +41,8 @@ namespace Test.Controllers
             {
                 Registration reencpass = new Registration
                 {
-                    Id = reg.Id,
                     Username = reg.Username,
                     Password = encpasswprd,
-                    IsSigned = reg.IsSigned
                 };
 
                 _benDbContext.Registrations.Add(reencpass);
