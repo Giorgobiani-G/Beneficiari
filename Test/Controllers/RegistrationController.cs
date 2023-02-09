@@ -33,7 +33,7 @@ namespace Test.Controllers
 
             if (exists)
             {
-                ViewBag.Message = "ასეთი ლოგინით და პაროლით რეგისტრირებული მომხმარებელი უკვე არსებობს";
+                ViewBag.Wrong = "ასეთი ლოგინით და პაროლით რეგისტრირებული მომხმარებელი უკვე არსებობს";
                 RedirectToAction("Registracia", "Registration");
                 ModelState.Clear();
             }

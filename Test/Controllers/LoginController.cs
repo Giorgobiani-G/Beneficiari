@@ -42,7 +42,7 @@ namespace Test.Controllers
             }
             else
             {
-                ViewBag.Message = "არასროი ლოგინი ან პაროლი";
+                ViewBag.Message = "არასწორი ლოგინი ან პაროლი";
                  RedirectToAction("Login","Login");
                 ModelState.Clear();
             }
